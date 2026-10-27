@@ -152,11 +152,130 @@
             opacity: 0;
         }
         .faq-item.open .faq-answer {
-            max-height: 420px;
+            max-height: 600px;
             opacity: 1;
         }
         .faq-item.open .faq-icon {
             transform: rotate(45deg);
+        }
+
+        /* Floating contact button */
+        .contact-fab {
+            position: fixed;
+            right: calc(16px + env(safe-area-inset-right, 0px));
+            bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+            z-index: 40;
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: flex-end;
+            gap: 12px;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
+        }
+        body.modal-open .contact-fab,
+        body.menu-open .contact-fab {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .contact-fab-toggle {
+            width: 56px;
+            height: 56px;
+            border-radius: 9999px;
+            background-color: #121212;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
+            transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+        }
+        .contact-fab-toggle:hover {
+            background-color: #1C1C1C;
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+        .contact-fab-toggle svg {
+            width: 24px;
+            height: 24px;
+        }
+        .contact-fab-toggle .fab-icon-close,
+        .contact-fab.open .fab-icon-open {
+            display: none;
+        }
+        .contact-fab.open .fab-icon-close {
+            display: block;
+        }
+        .contact-fab-menu {
+            width: 264px;
+            max-width: calc(100vw - 32px);
+            padding: 6px;
+            background-color: #121212;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(8px) scale(0.98);
+            transform-origin: bottom right;
+            transition: opacity 0.25s ease, visibility 0.25s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .contact-fab.open .contact-fab-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+        }
+        .contact-fab-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 12px;
+            border-radius: 12px;
+            color: #E5E5E5;
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+        }
+        .contact-fab-item:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+            color: #FFFFFF;
+        }
+        .contact-fab-toggle:focus-visible,
+        .contact-fab-item:focus-visible {
+            outline: 2px solid #FCD34D;
+            outline-offset: 2px;
+        }
+        .contact-fab-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 9999px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+        }
+        .contact-fab-icon svg {
+            width: 17px;
+            height: 17px;
+            fill: currentColor;
+        }
+        .contact-fab-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+        .contact-fab-sub {
+            display: block;
+            font-size: 11px;
+            color: #8A8A8E;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            margin-top: 2px;
+        }
+        @media (max-width: 767px) {
+            #footer {
+                padding-bottom: calc(6rem + env(safe-area-inset-bottom, 0px));
+            }
         }
     </style>
 </head>
@@ -879,8 +998,8 @@
                         <span class="text-base md:text-lg font-bold text-white" data-en="1. Who owns the copyright and commercial rights to the AI video?" data-ru="1. Кому принадлежат авторские права на ИИ-ролик?">1. Who owns the copyright and commercial rights to the AI video?</span>
                         <span class="faq-icon text-2xl text-amber-300 font-light transition-transform duration-300">+</span>
                     </button>
-                    <div class="faq-answer px-6 pb-5 text-sm text-gray-300 leading-relaxed" data-en="Upon final payment, 100% of exclusive commercial usage and broadcast rights are transferred to you (the client). We use licensed enterprise AI pipelines and cleared audio libraries, so your video is completely safe for targeted ads, YouTube, TV broadcast, and global brand campaigns. As is standard worldwide practice, Moviely AI retains the right to show completed works in its own portfolio and social channels, unless a separate NDA / confidentiality agreement is signed with the client." data-ru="После финальной оплаты 100% исключительных имущественных и коммерческих прав на готовый видеоролик полностью переходят заказчику. Мы используем коммерческие лицензии генеративных платформ и очищенную музыку/озвучку, поэтому ролик можно без ограничений использовать в таргетированной рекламе, на ТВ, YouTube и маркетплейсах. Студия Moviely AI, по стандартной мировой практике, сохраняет право демонстрировать готовые работы в собственном портфолио и соцсетях, если с заказчиком отдельно не подписан NDA / договор о конфиденциальности.">
-                        Upon final payment, 100% of exclusive commercial usage and broadcast rights are transferred to you (the client). We use licensed enterprise AI pipelines and cleared audio libraries, so your video is completely safe for targeted ads, YouTube, TV broadcast, and global brand campaigns. As is standard worldwide practice, Moviely AI retains the right to show completed works in its own portfolio and social channels, unless a separate NDA / confidentiality agreement is signed with the client.
+                    <div class="faq-answer px-6 pb-5 text-sm text-gray-300 leading-relaxed" data-en="Upon full payment, you receive all rights we hold in the video, plus an exclusive, perpetual, worldwide licence for commercial use and broadcast. We use licensed enterprise AI pipelines and cleared audio libraries, so your video is completely safe for targeted ads, YouTube, TV broadcast, and global brand campaigns. As is standard worldwide practice, Moviely AI retains the right to show completed works in its own portfolio and social channels, unless an NDA is signed or you ask us in writing not to before work begins." data-ru="После полной оплаты вы получаете все принадлежащие студии права на ролик и исключительную бессрочную всемирную лицензию на коммерческое использование и трансляцию. Мы используем коммерческие лицензии генеративных платформ и очищенную музыку/озвучку, поэтому ролик можно использовать в таргетированной рекламе, на ТВ, YouTube и маркетплейсах. Студия Moviely AI, по стандартной мировой практике, сохраняет право демонстрировать готовые работы в собственном портфолио и соцсетях, если не подписан NDA или вы до начала работы письменно не попросили этого не делать.">
+                        Upon full payment, you receive all rights we hold in the video, plus an exclusive, perpetual, worldwide licence for commercial use and broadcast. We use licensed enterprise AI pipelines and cleared audio libraries, so your video is completely safe for targeted ads, YouTube, TV broadcast, and global brand campaigns. As is standard worldwide practice, Moviely AI retains the right to show completed works in its own portfolio and social channels, unless an NDA is signed or you ask us in writing not to before work begins.
                     </div>
                 </div>
 
@@ -927,7 +1046,38 @@
                         For an AI Talking Head ($30+), simply send your script or topic, desired language, and tone inside our Telegram bot @movielyai_bot. For a Face-Swap & Personal Greeting ($100+), send 1–4 clear photos of the person and 2–3 sentences about the occasion.
                     </div>
                 </div>
+
+                <!-- FAQ 6 -->
+                <div class="faq-item border border-white/15 rounded-2xl bg-surface/70 overflow-hidden transition-colors">
+                    <button type="button" class="faq-toggle w-full px-6 py-5 text-left flex items-center justify-between gap-4 hover:bg-white/5 transition-colors">
+                        <span class="text-base md:text-lg font-bold text-white" data-en="6. Can I get my deposit back if I cancel?" data-ru="6. Можно ли вернуть предоплату при отмене заказа?">6. Can I get my deposit back if I cancel?</span>
+                        <span class="faq-icon text-2xl text-amber-300 font-light transition-transform duration-300">+</span>
+                    </button>
+                    <div class="faq-answer px-6 pb-5 text-sm text-gray-300 leading-relaxed">
+                        <p data-en="Yes, if you cancel before AI generation starts — the deposit is refunded in full, minus payment-processor fees. Once generation has started, the deposit is non-refundable, as it covers the resources and work already used. If we cannot complete your order, or miss the confirmed deadline by more than 7 days through no fault of yours, you get a full refund." data-ru="Да, если отменить заказ до начала генерации — предоплата возвращается полностью за вычетом комиссий платёжных систем. После начала генерации предоплата не возвращается: она покрывает уже затраченные ресурсы и работу. Если мы не можем выполнить заказ или нарушили подтверждённый срок более чем на 7 дней не по вашей вине — предоплата возвращается полностью.">Yes, if you cancel before AI generation starts — the deposit is refunded in full, minus payment-processor fees. Once generation has started, the deposit is non-refundable, as it covers the resources and work already used. If we cannot complete your order, or miss the confirmed deadline by more than 7 days through no fault of yours, you get a full refund.</p>
+                        <a href="terms.html#refunds" class="inline-block mt-3 text-[#5bc0f8] hover:text-white transition-colors" data-en="Read the Terms of Service →" data-ru="Читать Условия оказания услуг →">Read the Terms of Service →</a>
+                    </div>
+                </div>
+
+                <!-- FAQ 7 -->
+                <div class="faq-item border border-white/15 rounded-2xl bg-surface/70 overflow-hidden transition-colors">
+                    <button type="button" class="faq-toggle w-full px-6 py-5 text-left flex items-center justify-between gap-4 hover:bg-white/5 transition-colors">
+                        <span class="text-base md:text-lg font-bold text-white" data-en="7. Do I need consent from the people who appear in the video?" data-ru="7. Нужно ли согласие людей, которые появятся в ролике?">7. Do I need consent from the people who appear in the video?</span>
+                        <span class="faq-icon text-2xl text-amber-300 font-light transition-transform duration-300">+</span>
+                    </button>
+                    <div class="faq-answer px-6 pb-5 text-sm text-gray-300 leading-relaxed">
+                        <p data-en="Yes. You confirm that you hold the rights to every material you send and have the consent of each person whose face, photo or voice is used. We do not work with public figures without their permission, with minors without consent from their parents or guardians, or with any intimate or sexual content involving real people. We may decline or stop an order that breaks these rules." data-ru="Да. Вы подтверждаете, что обладаете правами на все присланные материалы и имеете согласие каждого человека, чьё лицо, фото или голос используются. Мы не работаем с публичными людьми без их разрешения, с несовершеннолетними без согласия родителей или опекунов, а также с любым интимным или сексуальным контентом с реальными людьми. Мы вправе отказать в заказе или остановить работу, если эти правила нарушены.">Yes. You confirm that you hold the rights to every material you send and have the consent of each person whose face, photo or voice is used. We do not work with public figures without their permission, with minors without consent from their parents or guardians, or with any intimate or sexual content involving real people. We may decline or stop an order that breaks these rules.</p>
+                        <a href="terms.html#client-content" class="inline-block mt-3 text-[#5bc0f8] hover:text-white transition-colors" data-en="Read the Terms of Service →" data-ru="Читать Условия оказания услуг →">Read the Terms of Service →</a>
+                    </div>
+                </div>
             </div>
+
+            <p class="text-center text-sm text-gray-400 mt-6">
+                <span data-en="Full terms:" data-ru="Полные условия:">Full terms:</span>
+                <a href="terms.html" class="text-[#5bc0f8] hover:text-white transition-colors" data-en="Terms of Service" data-ru="Условия оказания услуг">Terms of Service</a>
+                <span class="text-gray-600">·</span>
+                <a href="privacy.html" class="text-[#5bc0f8] hover:text-white transition-colors" data-en="Privacy Policy" data-ru="Политика конфиденциальности">Privacy Policy</a>
+            </p>
         </div>
     </section>
 
@@ -954,6 +1104,13 @@
                             <span class="flex items-center gap-3">
                                 <svg class="w-5 h-5 fill-current flex-shrink-0" viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
                                 <span data-en="Get Instant Quote via @movielyai_bot" data-ru="Рассчитать проект в боте @movielyai_bot">Get Instant Quote via @movielyai_bot</span>
+                            </span>
+                            <span>→</span>
+                        </a>
+                        <a href="https://t.me/moviely_ai" target="_blank" rel="noopener noreferrer" class="w-full py-4 px-6 rounded-2xl bg-white/10 border border-white/25 hover:bg-white/20 text-white font-bold text-xs sm:text-sm uppercase tracking-wider flex items-center justify-between transition-all">
+                            <span class="flex items-center gap-3">
+                                <svg class="w-5 h-5 fill-current flex-shrink-0" viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                                <span data-en="Talk to a manager — @moviely_ai" data-ru="Написать менеджеру — @moviely_ai">Talk to a manager — @moviely_ai</span>
                             </span>
                             <span>→</span>
                         </a>
@@ -1148,6 +1305,7 @@
                         <p class="text-xs uppercase tracking-[0.2em] text-muted mb-3" data-en="Instant Order & Support" data-ru="Быстрый заказ и связь">Instant Order & Support</p>
                         <div class="flex flex-col gap-2.5 text-sm">
                             <a href="https://t.me/movielyai_bot" target="_blank" rel="noopener noreferrer" class="text-[#5bc0f8] hover:text-white font-semibold transition-colors" data-en="Get Instant Quote via @movielyai_bot" data-ru="Рассчитать проект в боте @movielyai_bot">Get Instant Quote via @movielyai_bot</a>
+                            <a href="https://t.me/moviely_ai" target="_blank" rel="noopener noreferrer" class="text-[#5bc0f8] hover:text-white font-semibold transition-colors" data-en="Talk to a manager — @moviely_ai" data-ru="Написать менеджеру — @moviely_ai">Talk to a manager — @moviely_ai</a>
                             <a href="#contact" class="text-gray-300 hover:text-white transition-colors" data-en="Calculate Project in Telegram" data-ru="Рассчитать проект в боте @movielyai_bot">Calculate Project in Telegram</a>
                             <a href="https://t.me/movielyai" target="_blank" rel="noopener noreferrer" class="text-[#5bc0f8] hover:text-white transition-colors" data-en="Telegram channel @movielyai" data-ru="Telegram-канал @movielyai">Telegram channel @movielyai</a>
 <a href="mailto:movielyai@gmail.com" class="text-gray-400 hover:text-white transition-colors font-mono text-xs">movielyai@gmail.com</a>
@@ -1159,6 +1317,13 @@
                             <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition-colors">Instagram</a>
                             <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition-colors">TikTok</a>
                             <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition-colors">YouTube</a>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs uppercase tracking-[0.2em] text-muted mb-3" data-en="Legal" data-ru="Документы">Legal</p>
+                        <div class="flex flex-col gap-2 text-sm">
+                            <a href="terms.html" class="text-gray-300 hover:text-white transition-colors" data-en="Terms of Service" data-ru="Условия оказания услуг">Terms of Service</a>
+                            <a href="privacy.html" class="text-gray-300 hover:text-white transition-colors" data-en="Privacy Policy" data-ru="Политика конфиденциальности">Privacy Policy</a>
                         </div>
                     </div>
                 </div>
@@ -1200,6 +1365,28 @@
             </div>
         </div>
     </footer>
+
+    <!-- Floating contact button -->
+    <div id="contactFab" class="contact-fab">
+        <button id="contactFabToggle" type="button" class="contact-fab-toggle" aria-expanded="false" aria-controls="contactFabMenu" aria-label="Contact us" data-aria-en="Contact us" data-aria-ru="Связаться с нами">
+            <svg class="fab-icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            <svg class="fab-icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+        <div id="contactFabMenu" class="contact-fab-menu">
+            <a href="https://t.me/movielyai_bot" target="_blank" rel="noopener noreferrer" class="contact-fab-item">
+                <span class="contact-fab-icon bg-[#229ED9]"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 9V7c0-1.1-.9-2-2-2h-3c0-1.66-1.34-3-3-3S9 3.34 9 5H6c-1.1 0-2 .9-2 2v2c-1.66 0-3 1.34-3 3s1.34 3 3 3v4c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-4c1.66 0 3-1.34 3-3s-1.34-3-3-3zM7.5 11.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5S9.83 13 9 13s-1.5-.67-1.5-1.5zM16 17H8v-2h8v2zm-1-4c-.83 0-1.5-.67-1.5-1.5S14.17 10 15 10s1.5.67 1.5 1.5S15.83 13 15 13z"/></svg></span>
+                <span><span class="contact-fab-label" data-en="Get a quote" data-ru="Рассчитать проект">Get a quote</span><span class="contact-fab-sub">@movielyai_bot</span></span>
+            </a>
+            <a href="https://t.me/moviely_ai" target="_blank" rel="noopener noreferrer" class="contact-fab-item">
+                <span class="contact-fab-icon bg-white/10 border border-white/20"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></span>
+                <span><span class="contact-fab-label" data-en="Talk to a manager" data-ru="Написать менеджеру">Talk to a manager</span><span class="contact-fab-sub">@moviely_ai</span></span>
+            </a>
+            <a href="mailto:movielyai@gmail.com" class="contact-fab-item">
+                <span class="contact-fab-icon bg-white/10 border border-white/20"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg></span>
+                <span><span class="contact-fab-label" data-en="Email" data-ru="Email">Email</span><span class="contact-fab-sub">movielyai@gmail.com</span></span>
+            </a>
+        </div>
+    </div>
 
     <!-- JAVASCRIPT FOR VIDEOS, PORTFOLIO TABS, "BEFORE/AFTER" PIP, FAQ, FORM & ENGLISH-FIRST BILINGUAL UI -->
     <script>
@@ -1455,8 +1642,23 @@
                 });
             });
 
-            // Task 1: Default language strictly English ('en')
+            // Language: saved choice first, otherwise browser language (ru* -> RU, else EN)
+            const LANG_STORAGE_KEY = 'moviely_lang';
             let currentLang = 'en';
+
+            function getInitialLang() {
+                try {
+                    const saved = localStorage.getItem(LANG_STORAGE_KEY);
+                    if (saved === 'en' || saved === 'ru') return saved;
+                } catch (e) {}
+                return (navigator.language || '').toLowerCase().startsWith('ru') ? 'ru' : 'en';
+            }
+
+            function saveLang(lang) {
+                try {
+                    localStorage.setItem(LANG_STORAGE_KEY, lang);
+                } catch (e) {}
+            }
             let activeCategory = null;
             let activeVideoIndex = 0;
 
@@ -1517,23 +1719,62 @@
                         el.textContent = el.getAttribute(`data-${lang}`);
                     }
                 });
+                document.querySelectorAll('[data-aria-en][data-aria-ru]').forEach(el => {
+                    el.setAttribute('aria-label', el.getAttribute(`data-aria-${lang}`));
+                });
 
                 if (activeCategory) {
                     renderModalContent(activeCategory, activeVideoIndex, false);
                 }
             }
 
-            btnEn.addEventListener('click', () => switchLanguage('en'));
-            btnRu.addEventListener('click', () => switchLanguage('ru'));
-            if (btnEnMobile) btnEnMobile.addEventListener('click', () => switchLanguage('en'));
-            if (btnRuMobile) btnRuMobile.addEventListener('click', () => switchLanguage('ru'));
+            function chooseLanguage(lang) {
+                switchLanguage(lang);
+                saveLang(lang);
+            }
+
+            btnEn.addEventListener('click', () => chooseLanguage('en'));
+            btnRu.addEventListener('click', () => chooseLanguage('ru'));
+            if (btnEnMobile) btnEnMobile.addEventListener('click', () => chooseLanguage('en'));
+            if (btnRuMobile) btnRuMobile.addEventListener('click', () => chooseLanguage('ru'));
 
             if (mobileMenuBtn && mobileMenu) {
                 mobileMenuBtn.addEventListener('click', () => {
                     mobileMenu.classList.toggle('hidden');
+                    document.body.classList.toggle('menu-open', !mobileMenu.classList.contains('hidden'));
                 });
                 document.querySelectorAll('.mobile-nav-link').forEach(link => {
-                    link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                        document.body.classList.remove('menu-open');
+                    });
+                });
+            }
+
+            // Floating contact button
+            const contactFab = document.getElementById('contactFab');
+            const contactFabToggle = document.getElementById('contactFabToggle');
+
+            function setContactFabOpen(open) {
+                contactFab.classList.toggle('open', open);
+                contactFabToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+            }
+
+            if (contactFab && contactFabToggle) {
+                contactFabToggle.addEventListener('click', () => {
+                    setContactFabOpen(!contactFab.classList.contains('open'));
+                });
+                document.addEventListener('click', (e) => {
+                    if (!contactFab.contains(e.target)) setContactFabOpen(false);
+                });
+                contactFab.addEventListener('focusout', (e) => {
+                    if (e.relatedTarget && !contactFab.contains(e.relatedTarget)) setContactFabOpen(false);
+                });
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && contactFab.classList.contains('open')) {
+                        setContactFabOpen(false);
+                        contactFabToggle.focus();
+                    }
                 });
             }
 
@@ -1661,6 +1902,8 @@
                 renderModalContent(category, idx, true);
                 modal.classList.remove('opacity-0', 'pointer-events-none');
                 modal.classList.add('opacity-100', 'pointer-events-auto');
+                document.body.classList.add('modal-open');
+                if (contactFab) setContactFabOpen(false);
             }
 
             function closeProjectModal() {
@@ -1668,6 +1911,7 @@
                 activeCategory = null;
                 modal.classList.remove('opacity-100', 'pointer-events-auto');
                 modal.classList.add('opacity-0', 'pointer-events-none');
+                document.body.classList.remove('modal-open');
             }
 
             // Hero items hover & click
@@ -1800,8 +2044,8 @@
                 });
             }
 
-            // Task 1: Initialize UI strictly in English by default
-            switchLanguage('en');
+            // Initialize UI in the saved or browser-detected language
+            switchLanguage(getInitialLang());
         });
     </script>
 </body>
